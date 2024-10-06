@@ -1,6 +1,14 @@
-import { Body, Controller, Logger, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Logger,
+  Post,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserRegister } from 'src/interfaces/user.interface';
+import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -17,5 +25,12 @@ export class AuthController {
   @Post('login')
   async loginUser(@Body() user: UserRegister) {
     return this.authService.loginUser(user);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('logout')
+  async logOutUser(@Request() req) {
+    const { username } = req.user;
+    return this.authService.logOutUser(username);
   }
 }

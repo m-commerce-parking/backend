@@ -27,6 +27,10 @@ export class UserService {
   }
 
   async addFunds(username: string, amount: number): Promise<User> {
+    const user = await this.findOne(username);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
     return this.userModel
       .findOneAndUpdate(
         { username },

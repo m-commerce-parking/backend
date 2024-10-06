@@ -9,7 +9,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   @Post('add-funds')
   async addFunds(@Request() req, @Body() payload: { amount: number }) {
-    const username = req.user.username;
+    const { username } = req.user;
     return this.userService.addFunds(username, payload.amount);
   }
 }
