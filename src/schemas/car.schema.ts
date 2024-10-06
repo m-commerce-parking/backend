@@ -8,10 +8,11 @@ export class Car extends Document {
     minlength: 7,
     maxlength: 8,
     match: /^[A-Z]{2,3}\s?[A-Z0-9]{4,5}$/,
+    unique: true,
   })
   registrationPlate: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true, unique: true })
   ownerId: Types.ObjectId;
 }
 
