@@ -33,6 +33,7 @@ export class UserService {
         { $inc: { credits: amount } },
         { new: true },
       )
+      .select('credits')
       .exec();
   }
 }
