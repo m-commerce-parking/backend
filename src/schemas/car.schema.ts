@@ -12,7 +12,7 @@ export class Car extends Document {
   })
   registrationPlate: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true, unique: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   ownerId: Types.ObjectId;
 }
 

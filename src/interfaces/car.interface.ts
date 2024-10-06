@@ -5,5 +5,5 @@ export interface FetchCar {
 
 export interface CreateCar {
   registrationPlate: string;
-  userId: string;
+  username: string;
 }

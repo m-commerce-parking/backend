@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseGuards, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Get,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 
@@ -11,5 +18,12 @@ export class UserController {
   async addFunds(@Request() req, @Body() payload: { amount: number }) {
     const { username } = req.user;
     return this.userService.addFunds(username, payload.amount);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('funds')
+  async getFunds(@Request() req) {
+    const { username } = req.user;
+    return this.userService.getFunds(username);
   }
 }

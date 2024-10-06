@@ -40,4 +40,12 @@ export class UserService {
       .select('credits')
       .exec();
   }
+
+  async getFunds(username: string): Promise<number> {
+    const user = await this.findOne(username);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    return user.credits;
+  }
 }
