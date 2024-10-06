@@ -4,7 +4,7 @@ import { userRole, userRoleEnum } from 'src/constants/enums';
 
 @Schema()
 export class User extends Document {
-  @Prop({ required: true, minlength: 2, maxlength: 50 })
+  @Prop({ required: true, minlength: 2, maxlength: 50, unique: true })
   username: string;
 
   @Prop({ required: true })
