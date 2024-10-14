@@ -5,6 +5,7 @@ import {
   UseGuards,
   Request,
   Get,
+  Param,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from 'src/auth/auth.guard';

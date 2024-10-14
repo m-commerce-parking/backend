@@ -18,6 +18,9 @@ export class ParkingAction extends Document {
 
   @Prop({ type: Date, default: null })
   leaveTime: Date | null;
+
+  @Prop({ type: Number, required: true })
+  parkingSpaceNumber: number;
 }
 
 export type ParkingActionDocument = ParkingAction & Document;
