@@ -8,3 +8,8 @@ export interface FetchParkingAction {
   parkTime: Date;
   leaveTime: Date | null;
 }
+
+export interface PayParkingResponse {
+  parkingActionId: string;
+  newUserCredits: number;
+}
