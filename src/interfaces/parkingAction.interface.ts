@@ -1,5 +1,5 @@
 export interface FetchParkingAction {
-  _id: string;
+  id: string;
   parkingSpaceId: string;
   parkingSpaceNumber: number;
   carId: string;

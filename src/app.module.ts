@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CarsModule } from './cars/cars.module';
 import { ParkingSpacesModule } from './parking-spaces/parking-spaces.module';
+import { ParkingActionModule } from './parking-action/parking-action.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ParkingSpacesModule } from './parking-spaces/parking-spaces.module';
     UserModule,
     CarsModule,
     ParkingSpacesModule,
+    ParkingActionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
