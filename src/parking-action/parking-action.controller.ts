@@ -27,6 +27,12 @@ export class ParkingActionController {
         const { username } = req.user;
         return this.parkingActionService.getUserParkingActions(username);
     }
+    
+    @Get('last-action')
+    async getLastUserParkingAction(@Request() req): Promise<FetchParkingAction | null> {
+        const { username } = req.user;
+        return this.parkingActionService.getLastParkingAction(username);
+    }
 
     @Post('pay')
     async payParkingAction(

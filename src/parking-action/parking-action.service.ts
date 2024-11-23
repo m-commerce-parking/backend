@@ -169,6 +169,49 @@ export class ParkingActionService {
         }
     }
 
+    async getLastParkingAction(username: string): Promise<FetchParkingAction | null> {
+        try {
+            const user = await this.userModel.findOne({ username });
+            if (!user) {
+                throw new BadRequestException('User not found');
+            }
+
+            const userCars = await this.carModel.find({
+                ownerId: user._id,
+            });
+            const userCarsIds = userCars.map((car) => car._id);
+
+            const parkingActions = await this.parkingActionModel
+                .find({
+                    carId: { $in: userCarsIds },
+                })
+                .populate('parkingSpaceId')
+                .populate('carId')
+                .sort({ parkTime: -1 })
+                .limit(1)
+                .exec();
+
+            if (!parkingActions || parkingActions.length !== 1) {
+                return null;
+            }
+
+            const parkingAction = parkingActions[0];
+
+            return {
+                id: parkingAction._id.toString(),
+                parkingSpaceId: parkingAction.parkingSpaceId._id.toString(),
+                parkingSpaceNumber: parkingAction.parkingSpaceNumber,
+                carId: parkingAction.carId._id.toString(),
+                carRegistrationPlate: (parkingAction.carId as any).registrationPlate,
+                status: parkingAction.status,
+                parkTime: parkingAction.parkTime,
+                leaveTime: parkingAction.leaveTime,
+            };
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    }
+
     async fetchFilteredActions(
         filterParams: FetchFilteredActionsRequest,
     ): Promise<FetchFilteredActions[]> {

@@ -43,4 +43,15 @@ export class CarsController {
       data: cars,
     };
   }
+
+  @Get('count')
+  async getCarsCount(@Req() req: Request) {
+    const username = req['user'].username;
+    const carsCount = await this.carsService.getCarsCount(username);
+    return {
+      isSuccessful: true,
+      message: 'Cars count retrieved successfully',
+      data: carsCount,
+    };
+  }
 }

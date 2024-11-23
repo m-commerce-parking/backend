@@ -89,6 +89,11 @@ export class CarsService {
     }));
   }
 
+  async getCarsCount(username: string): Promise<number> {
+    const cars = await this.getCars(username);
+    return cars.length;
+  }
+
   async findByOwner(ownerId: string): Promise<Car[]> {
     return this.carModel.find({ ownerId }).exec();
   }
