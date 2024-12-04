@@ -6,46 +6,48 @@ import { User } from 'src/schemas/user.schema';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+    constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.userModel.findOne({ username }).exec();
-  }
-
-  async create(user: UserRegister): Promise<User> {
-    if (!user.username || !user.password) {
-      throw new BadRequestException('Username and password are required');
-    }
-    if (!user.passwordConfirm) {
-      throw new BadRequestException('Password confirmation is required');
-    }
-    if (user.password !== user.passwordConfirm) {
-      throw new BadRequestException('Passwords do not match');
+    async findOne(username: string): Promise<User | undefined> {
+        return this.userModel.findOne({ username }).exec();
     }
 
-    return this.userModel.create(user);
-  }
+    async create(user: UserRegister): Promise<User> {
+        if (!user.username || !user.password) {
+            throw new BadRequestException('Username and password are required');
+        }
+        if (!user.passwordConfirm) {
+            throw new BadRequestException('Password confirmation is required');
+        }
+        if (user.password !== user.passwordConfirm) {
+            throw new BadRequestException('Passwords do not match');
+        }
 
-  async addFunds(username: string, amount: number): Promise<User> {
-    const user = await this.findOne(username);
-    if (!user) {
-      throw new BadRequestException('User not found');
+        return this.userModel.create(user);
     }
-    return this.userModel
-      .findOneAndUpdate(
-        { username },
-        { $inc: { credits: amount } },
-        { new: true },
-      )
-      .select('credits')
-      .exec();
-  }
 
-  async getFunds(username: string): Promise<number> {
-    const user = await this.findOne(username);
-    if (!user) {
-      throw new BadRequestException('User not found');
+    async addFunds(username: string, amount: number): Promise<User> {
+        const user = await this.findOne(username);
+        if (!user) {
+            throw new BadRequestException('User not found');
+        } else if (amount <= 0) {
+            throw new BadRequestException('Amount must be greater than 0');
+        }
+        return this.userModel
+            .findOneAndUpdate(
+                { username },
+                { $inc: { credits: amount } },
+                { new: true },
+            )
+            .select('credits')
+            .exec();
     }
-    return user.credits;
-  }
+
+    async getFunds(username: string): Promise<number> {
+        const user = await this.findOne(username);
+        if (!user) {
+            throw new BadRequestException('User not found');
+        }
+        return user.credits;
+    }
 }
